@@ -1,15 +1,23 @@
 import { useRef } from "react";
 
 export function useRestoreFocus() {
-  const previousRef = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLElement | null>(null);
 
   function capture() {
-    previousRef.current = document.activeElement as HTMLElement;
+    ref.current = document.activeElement as HTMLElement;
   }
 
   function restore() {
     requestAnimationFrame(() => {
-      previousRef.current?.focus();
+      if (
+        ref.current &&
+        document.contains(ref.current) &&
+        !ref.current.hasAttribute("disabled")
+      ) {
+        ref.current.focus();
+      } else {
+        document.body.focus();
+      }
     });
   }
 
