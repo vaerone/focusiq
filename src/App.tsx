@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import { Modal } from "./components/Modal";
 import { Menu } from "./components/Menu";
+import { useRestoreFocus } from "./hooks/useRestoreFocus";
 
 export default function App() {
   const [open, setOpen] = useState(false);
+  const { capture, restore } = useRestoreFocus();
+
+  function openModal() {
+    capture();
+    setOpen(true);
+  }
+
+  function closeModal() {
+    setOpen(false);
+    restore();
+  }
 
   return (
     <div style={{ padding: 40 }}>
-      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <button onClick={openModal}>Open Modal</button>
 
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={open} onClose={closeModal}>
         <input placeholder="Type here..." />
       </Modal>
 

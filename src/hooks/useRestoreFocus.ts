@@ -1,13 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
-export function useRestoreFocus(isActive: boolean) {
+export function useRestoreFocus() {
   const previousRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    if (isActive) {
-      previousRef.current = document.activeElement as HTMLElement;
-    } else {
+  function capture() {
+    previousRef.current = document.activeElement as HTMLElement;
+  }
+
+  function restore() {
+    requestAnimationFrame(() => {
       previousRef.current?.focus();
-    }
-  }, [isActive]);
+    });
+  }
+
+  return { capture, restore };
 }

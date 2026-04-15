@@ -11,10 +11,11 @@ export function useFocusTrap({ containerRef, isActive }: Options) {
     if (!isActive) return;
 
     const container = containerRef.current;
-    if (!container) return;
+    if (container === null) return;
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key !== "Tab") return;
+      if (!container) return;
 
       const focusable = getFocusableElements(container);
       if (!focusable.length) return;

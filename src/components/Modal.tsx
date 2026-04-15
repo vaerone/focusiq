@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useRef } from "react";
 import { useFocusTrap } from "../hooks/useFocusTrap";
-import { useRestoreFocus } from "../hooks/useRestoreFocus";
 
 type Props = {
   open: boolean;
@@ -12,7 +11,6 @@ export function Modal({ open, onClose, children }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useFocusTrap({ containerRef: ref, isActive: open });
-  useRestoreFocus(open);
 
   useLayoutEffect(() => {
     if (open) {
